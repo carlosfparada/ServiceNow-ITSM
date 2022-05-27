@@ -17,7 +17,7 @@
             active: = true
       register: _incidents
 
-    - name: Query incident number and creation time 
+    - name: Set facts on incident number and creation time 
       set_fact:
         incident_list: '{{ incident_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
       loop: "{{ _incidents.records }}"
