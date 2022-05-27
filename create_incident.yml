@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   tasks:
-    - name: Include Backup and Restore variables
+    - name: Include variables
       include_vars: main.yml
 
     - name: Create incident
