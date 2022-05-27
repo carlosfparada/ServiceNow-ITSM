@@ -13,7 +13,7 @@
       servicenow.itsm.incident_info:
         instance: "{{ instance }}"
         query:
-          - sys_created_by: LIKE {{ incident_caller }}
+          - sys_created_by: "{{ incident_caller }}"
             active: = true
       register: _incidents
 
