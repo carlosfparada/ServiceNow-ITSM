@@ -1,0 +1,7 @@
+---
+instance:
+  host: https://dev122828.service-now.com
+  username: admin
+  password: -upPRL8cz1G+
+
+incident_caller: carlos.parada
