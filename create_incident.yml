@@ -1,0 +1,27 @@
+---
+- name: Automate Service Now 
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Include Backup and Restore variables
+      include_vars: main.yml
+
+    - name: Create incident
+      servicenow.itsm.incident:
+        instance: "{{ instance }}"
+        state: new
+        caller: "{{ incident_caller }}"
+        short_description: "User {{ incident_caller }} created a new incident"
+        description: "User {{ incident_caller }} created a new incident using Ansible Automation Platform"
+        impact: low
+        urgency: low
+      # Register the output of this task for use within subsequent tasks
+      register: _incident
+
+    - name: Store incident number
+      set_fact:
+        incident_number: "{{ _incident.record.number }}"
+
+    - name: Debug incident number:
+        msg: "A new incident has been created: {{ incident_number }}"
+
