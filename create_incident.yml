@@ -23,5 +23,6 @@
         incident_number: "{{ _incident.record.number }}"
 
     - name: Debug incident number
+      debug:
         msg: "A new incident has been created: {{ incident_number }}"
 
