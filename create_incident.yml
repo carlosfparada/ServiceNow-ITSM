@@ -22,6 +22,6 @@
       set_fact:
         incident_number: "{{ _incident.record.number }}"
 
-    - name: Debug incident number:
+    - name: Debug incident number
         msg: "A new incident has been created: {{ incident_number }}"
 
