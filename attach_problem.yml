@@ -30,6 +30,10 @@
         description: "{{ incident_caller }} created a new problem"
       register: problem
 
+    - name: Debug problem number
+      debug:
+        msg: "A new problem has been created: {{ problem.record.number }}"
+
     - name: Assign a problem to a user for assessment
       servicenow.itsm.problem:
         instance: "{{ instance }}"
@@ -45,8 +49,3 @@
         other:
           problem_id: "{{ problem.record.number }}"
       loop: "{{ incident_list }}"
-
-    - name: Debug problem number
-      debug:
-        msg: "A new problem has been created: {{ problem.record.number }}"
-
