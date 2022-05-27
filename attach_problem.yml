@@ -11,6 +11,7 @@
 
     - name: Find user created incidents
       servicenow.itsm.incident_info:
+        instance: "{{ instance }}"
         query:
           - sys_created_by: LIKE {{ incident_caller }}
             active: = true
@@ -24,18 +25,21 @@
 
     - name: Create a problem from incident
       servicenow.itsm.problem:
+        instance: "{{ instance }}"
         short_description: "The website is down!"
         description: "{{ incident_caller }} created a new problem"
       register: problem
 
     - name: Assign a problem to a user for assessment
       servicenow.itsm.problem:
+        instance: "{{ instance }}"
         number: "{{ problem.record.number }}"
         state: assess
         assigned_to: "{{ incident_caller }}"
 
     - name: Update incident status now that problem has been created
       servicenow.itsm.incident:
+        instance: "{{ instance }}"
         number: "{{ item.number }}"
         state: in_progress
         other:
