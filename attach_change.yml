@@ -24,6 +24,7 @@
 
     - name: Assign problem for assessment
       servicenow.itsm.problem:
+        instance: "{{ instance }}"
         number: "{{ item.number }}"
         state: assess
         assigned_to: "{{ incident_caller }}"
