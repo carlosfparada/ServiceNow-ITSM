@@ -8,6 +8,7 @@ Docs:
 
 - https://play.instruqt.com/embed/redhat/tracks/getting-started-servicenow-automation?token=em_5ktpLJWtzpbqcDyM&show_challenges=true
 
+- https://www.ansible.com/blog/ansible-servicenow-howto-part-3-making-outbound-restful-api-calls-to-ansible-tower
 
 Service Instance:
 

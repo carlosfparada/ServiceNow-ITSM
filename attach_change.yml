@@ -14,7 +14,7 @@
     - name: find user created problems
       servicenow.itsm.problem_info:
         query:
-          - sys_created_by: LIKE {{ demo_username }}
+          - sys_created_by: = {{ demo_username }}
             active: = true
       register: problems
 
