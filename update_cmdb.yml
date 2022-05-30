@@ -14,7 +14,7 @@
         node_info: "{{ node_info + [{'hostname': ansible_facts['nodename'], 'default_ip': ansible_facts['default_ipv4']['address'], 'default_mac': ansible_facts['default_ipv4']['macaddress'], 'vendor': ansible_facts['product_name'] }] }}"
 
   - name: Set facts
-    set_facts:
+    set_fact:
       node_info: node_info
 
 
