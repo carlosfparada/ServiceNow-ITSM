@@ -26,6 +26,7 @@
     include_vars: main.yml
 
   - name: Debug
+    debug:
       var: hostvars
 
   - name: Create/update configuration item
