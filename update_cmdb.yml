@@ -27,9 +27,9 @@
 
   - name: Create/update configuration item
     servicenow.itsm.configuration_item:
-      name: "{{ hostvars['item'].node_info.hostname }}"
-      ip_address: "{{ hostvars['item'].node_info.default_ip }}"
-      mac_address: "{{ hostvars['item'].node_info.default_mac }}"
+      name: "{{ hostvars[item].node_info.hostname }}"
+      ip_address: "{{ hostvars[item].node_info.default_ip }}"
+      mac_address: "{{ hostvars[item].node_info.default_mac }}"
       environment: test
       other:
         sys_class_name: cmdb_ci_linux_server
