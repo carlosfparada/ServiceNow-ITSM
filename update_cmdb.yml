@@ -25,6 +25,9 @@
   - name: Include variables
     include_vars: main.yml
 
+  - name: Debug
+      var: hostvars
+
   - name: Create/update configuration item
     servicenow.itsm.configuration_item:
       name: "{{ hostvars[item].node_info.hostname }}"
