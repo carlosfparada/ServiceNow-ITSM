@@ -44,9 +44,6 @@
       loop: "{{ problem_list }}"
       register: change
 
-    # - debug:
-    #     msg: "A new change request has been created {{ change.results[0].record.number }}"
-
     - name: Debug change facts
       debug:
         var: change
