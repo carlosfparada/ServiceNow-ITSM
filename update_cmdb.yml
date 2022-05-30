@@ -28,6 +28,6 @@
       environment: test
       other:
         sys_class_name: cmdb_ci_linux_server
-    loop: "{{ hostvars }}"
+    loop: "{{ hostvars | list }}"
     register: configuration_item
 
