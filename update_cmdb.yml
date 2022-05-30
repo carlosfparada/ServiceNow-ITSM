@@ -1,10 +1,12 @@
 ---
-- name: get node facts for SNOW
-  hosts: nodes
+- name: Get node facts for SNOW
+  hosts: all
   vars:
     node_info: []
 
   tasks:
+  - name: Include variables
+    include_vars: main.yml
 
   - name: Collect inventory facts
     ansible.builtin.set_stats:
@@ -15,13 +17,10 @@
 - name: Automate SNOW 
   hosts: localhost
   connection: local
-  collections:
-    - servicenow.itsm
-
   tasks:
-
   - name: Create/update configuration item
     servicenow.itsm.configuration_item:
+      instance: "{{ instance }}"
       name: "{{ item.hostname }}"
       ip_address: "{{ item.default_ip }}"
       mac_address: "{{ item.default_mac }}"
@@ -29,5 +28,9 @@
       other:
         sys_class_name: cmdb_ci_linux_server
     loop: "{{ node_info }}"
-    register: configuration_item
+    register: _configuration_item
+
+  - name: Create/update configuration item
+    debug:
+      var: _configuration_item
 
