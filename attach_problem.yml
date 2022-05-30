@@ -4,7 +4,6 @@
   connection: local    
   vars:
     incident_list: []
-
   tasks:
     - name: Include variables
       include_vars: main.yml

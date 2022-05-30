@@ -1,24 +1,22 @@
 ---
 - name: Automate SNOW 
   hosts: localhost
-  connection: local
-  collections:
-    - servicenow.itsm
-    
+  connection: local    
   vars:
-    demo_username: "{{ lookup('env', 'SN_USERNAME') }}"
     problem_list: []
-
   tasks:
+    - name: Include variables
+      include_vars: main.yml
 
-    - name: find user created problems
+    - name: Find user created problems
       servicenow.itsm.problem_info:
+        instance: "{{ instance }}"
         query:
-          - sys_created_by: = {{ demo_username }}
+          - sys_created_by: = {{ incident_caller }}
             active: = true
       register: problems
 
-    - name: query problem number and creation time 
+    - name: Query problem number and creation time 
       set_fact:
         problem_list: '{{ problem_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
       loop: "{{ problems.records }}"
@@ -28,11 +26,12 @@
       servicenow.itsm.problem:
         number: "{{ item.number }}"
         state: assess
-        assigned_to: "{{ demo_username }}"
+        assigned_to: "{{ incident_caller }}"
       loop: "{{ problem_list }}"
 
     - name: Create change request for resolving a problem
       servicenow.itsm.change_request:
+        instance: "{{ instance }}"
         state: new
         type: standard
         short_description: "Reboot the webserver"
@@ -47,9 +46,11 @@
     # - debug:
     #     msg: "A new change request has been created {{ change.results[0].record.number }}"
 
-    - debug:
+    - name: Debug change facts
+      debug:
         var: change
         
-    - debug:
+    - name: Debug change requests
+      debug:
         msg: "A new change request has been created {{ item.record.number }}"
       loop: "{{ change.results | list }}"
