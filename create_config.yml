@@ -29,5 +29,5 @@
 
     - name: Debug Configuration item
       debug:
-        msg: "A new Configuration has been created: {{ _configuration_item }}"
+        var: _configuration_item
 
