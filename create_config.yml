@@ -1,6 +1,6 @@
 ---
 - name: Automate Service Now 
-  hosts: localhost
+  hosts: linux
   connection: local
   vars:
     node_info: []
