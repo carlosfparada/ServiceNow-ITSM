@@ -101,7 +101,7 @@
   - name: Close Change Requests from the list
     servicenow.itsm.change_request:
       instance: "{{ instance }}"
-      state: closed
+      #state: closed
       close_code: "successful"
       close_notes: "Closed with ansible servicenow.itsm"
       number: "{{ item.number }}"
