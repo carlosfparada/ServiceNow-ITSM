@@ -4,7 +4,6 @@
   connection: local
   gather_facts: false
   vars:
-    demo_username: "{{ lookup('env', 'SN_USERNAME') }}"
     incident_list: []
     problem_list: []
     change_list: []
@@ -15,7 +14,7 @@
   - name: Find user created Incidents
     servicenow.itsm.incident_info:
       query:
-        - sys_created_by: = {{ demo_username }}
+        - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
           active: = true
     register: _incidents
@@ -23,7 +22,7 @@
   - name: Find user created Problems
     servicenow.itsm.problem_info:
       query:
-        - sys_created_by: = {{ demo_username }}
+        - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
           active: = true
     register: _problems
@@ -31,7 +30,7 @@
   - name: Find user created Change Requests
     servicenow.itsm.change_request_info:
       query:
-        - sys_created_by: = {{ demo_username }}
+        - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
           active: = true
     register: _changes
@@ -39,7 +38,7 @@
   - name: Find user created Configuration items
     servicenow.itsm.configuration_item_info:
       query:
-        - sys_created_by: = {{ demo_username }}
+        - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
           active: = true
     register: _configs
