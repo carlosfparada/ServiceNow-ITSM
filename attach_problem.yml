@@ -13,6 +13,7 @@
         instance: "{{ instance }}"
         query:
           - sys_created_by: "= {{ incident_caller }}"
+            sys_created_on: "> 2022-01-01 00:00:00"
             active: = true
       register: _incidents
 
@@ -27,16 +28,16 @@
         instance: "{{ instance }}"
         short_description: "The website is down!"
         description: "{{ incident_caller }} created a new problem"
-      register: problem
+      register: _problem
 
     - name: Debug problem number
       debug:
-        msg: "A new problem has been created: {{ problem.record.number }}"
+        msg: "A new problem has been created: {{ _problem.record.number }}"
 
     - name: Assign a problem to a user for assessment
       servicenow.itsm.problem:
         instance: "{{ instance }}"
-        number: "{{ problem.record.number }}"
+        number: "{{ _problem.record.number }}"
         state: assess
         assigned_to: "{{ incident_caller }}"
 
@@ -46,7 +47,7 @@
         number: "{{ item.number }}"
         state: in_progress
         other:
-          problem_id: "{{ problem.record.number }}"
+          problem_id: "{{ _problem.record.number }}"
       loop: "{{ incident_list }}"
 
 
