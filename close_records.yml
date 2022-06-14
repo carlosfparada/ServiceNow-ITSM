@@ -15,6 +15,7 @@
     
   - name: Find user created Incidents
     servicenow.itsm.incident_info:
+      instance: "{{ instance }}"
       query:
         - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
@@ -23,6 +24,7 @@
 
   - name: Find user created Problems
     servicenow.itsm.problem_info:
+      instance: "{{ instance }}"
       query:
         - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
@@ -31,6 +33,7 @@
 
   - name: Find user created Change Requests
     servicenow.itsm.change_request_info:
+      instance: "{{ instance }}"
       query:
         - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
@@ -39,6 +42,7 @@
 
   - name: Find user created Configuration items
     servicenow.itsm.configuration_item_info:
+      instance: "{{ instance }}"
       query:
         - sys_created_by: = {{ incident_caller }}
           sys_created_on: "> {{ date_incidents }}"
@@ -71,6 +75,7 @@
   
   - name: Close Incidents from the list
     servicenow.itsm.incident:
+      instance: "{{ instance }}"
       state: closed
       number: "{{ item.number }}"
       close_code: "Solved (Permanently)"
@@ -83,6 +88,7 @@
 
   - name: Close Problems from the list
     servicenow.itsm.problem:
+      instance: "{{ instance }}"
       state: absent
       assigned_to: "{{ demo_username }}"
       number: "{{ item.number }}"
@@ -94,6 +100,7 @@
     
   - name: Close Change Requests from the list
     servicenow.itsm.change_request:
+      instance: "{{ instance }}"
       state: closed
       close_code: "successful"
       close_notes: "Closed with ansible servicenow.itsm"
@@ -106,6 +113,7 @@
 
   - name: Remove Configuration items from the list
     servicenow.itsm.configuration_item:
+      instance: "{{ instance }}"
       state: absent
       sys_id: "{{ item.number }}"
     with_items: "{{ config_list }}"
