@@ -13,7 +13,7 @@
         instance: "{{ instance }}"
         query:
           - sys_created_by: "= {{ incident_caller }}"
-            sys_created_on: "> 2022-01-01 00:00:00"
+            sys_created_on: "> 2022-04-01 00:00:00"
             active: = true
       register: _incidents
 
