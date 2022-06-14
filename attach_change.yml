@@ -13,14 +13,15 @@
         instance: "{{ instance }}"
         query:
           - sys_created_by: = {{ incident_caller }}
+            sys_created_on: "> {{ date_incidents }}"
             active: = true
-      register: problems
+      register: _problems
 
     - name: Query problem number and creation time 
       set_fact:
         problem_list: '{{ problem_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
-      loop: "{{ problems.records }}"
-      when: problems
+      loop: "{{ _problems.records }}"
+      when: _problems
 
     - name: Assign problem for assessment
       servicenow.itsm.problem:
