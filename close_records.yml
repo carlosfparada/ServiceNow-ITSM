@@ -53,25 +53,25 @@
     set_fact:
       incident_list: '{{ incident_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
     loop: "{{ _incidents.records }}"
-    when: _incidents
+    when: _incidents is defined
 
   - name: Query Problem number and creation time 
     set_fact:
       problem_list: '{{ problem_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
     loop: "{{ _problems.records }}"
-    when: _problems
+    when: _problems is defined
 
   - name: Query Change Request number and creation time 
     set_fact:
       change_list: '{{ change_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
     loop: "{{ _changes.records }}"
-    when: _changes
+    when: _changes is defined
 
   - name: Query Configuration item sys_id and creation time 
     set_fact:
       config_list: '{{ config_list + [{"number": item.sys_id, "opened_at": item.sys_created_on}] }}'
     loop: "{{ _configs.records }}"
-    when: _configs
+    when: _configs is defined
   
   - name: Close Incidents from the list
     servicenow.itsm.incident:
@@ -83,8 +83,7 @@
       other:
         active: false
     with_items: "{{ incident_list }}"
-    when: 
-      - incident_list is defined
+    when: incident_list is defined
 
   - name: Close Problems from the list
     servicenow.itsm.problem:
@@ -95,8 +94,7 @@
       other:
         active: false
     with_items: "{{ problem_list }}"
-    when: 
-      - problem_list is defined
+    when: problem_list is defined
     
   - name: Close Change Requests from the list
     servicenow.itsm.change_request:
@@ -108,8 +106,7 @@
       other:
         active: false
     with_items: "{{ change_list }}"
-    when: 
-      - change_list is defined
+    when: change_list is defined
 
   - name: Remove Configuration items from the list
     servicenow.itsm.configuration_item:
@@ -117,7 +114,6 @@
       state: absent
       sys_id: "{{ item.number }}"
     with_items: "{{ config_list }}"
-    when: 
-      - config_list is defined
+    when: config_list is defined
 
 
