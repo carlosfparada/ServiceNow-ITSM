@@ -2,6 +2,7 @@
 - name: Automate Service Now 
   hosts: linux
   connection: local
+  gather_facts: yes
   vars:
     node_info: []
   tasks:
