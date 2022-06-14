@@ -10,7 +10,9 @@
     config_list: []
 
   tasks:
-
+  - name: Include variables
+    include_vars: main.yml
+    
   - name: Find user created Incidents
     servicenow.itsm.incident_info:
       query:
