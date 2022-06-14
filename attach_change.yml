@@ -41,15 +41,16 @@
         on_hold: true
         hold_reason: "Wait until after board meeting!"
         other:
-          parent: "{{ item.number }}"
+          #parent: "{{ item.number }}"
+          problem_id: "{{ item.number }}"
       loop: "{{ problem_list }}"
-      register: change
+      register: _change
 
     - name: Debug change facts
       debug:
-        var: change
+        var: _change
         
     - name: Debug change requests
       debug:
         msg: "A new change request has been created {{ item.record.number }}"
-      loop: "{{ change.results | list }}"
+      loop: "{{ _change.results | list }}"
