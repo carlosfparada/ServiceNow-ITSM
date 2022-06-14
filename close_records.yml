@@ -84,6 +84,7 @@
         active: false
     with_items: "{{ incident_list }}"
     when: incident_list is defined
+    ignore_errors: yes
 
   - name: Close Problems from the list
     servicenow.itsm.problem:
@@ -95,7 +96,8 @@
         active: false
     with_items: "{{ problem_list }}"
     when: problem_list is defined
-    
+    ignore_errors: yes
+
   - name: Close Change Requests from the list
     servicenow.itsm.change_request:
       instance: "{{ instance }}"
@@ -107,6 +109,7 @@
         active: false
     with_items: "{{ change_list }}"
     when: change_list is defined
+    ignore_errors: yes
 
   - name: Remove Configuration items from the list
     servicenow.itsm.configuration_item:
@@ -115,5 +118,5 @@
       sys_id: "{{ item.number }}"
     with_items: "{{ config_list }}"
     when: config_list is defined
-
+    ignore_errors: yes
 
