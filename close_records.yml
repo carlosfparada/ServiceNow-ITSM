@@ -1,5 +1,5 @@
 ---
-- name: close user created records 
+- name: Close user created records 
   hosts: localhost
   connection: local
   gather_facts: false
@@ -12,59 +12,63 @@
 
   tasks:
 
-  - name: find user created incidents
+  - name: Find user created Incidents
     servicenow.itsm.incident_info:
       query:
-        - sys_created_by: LIKE {{ demo_username }}
+        - sys_created_by: = {{ demo_username }}
+          sys_created_on: "> {{ date_incidents }}"
           active: = true
-    register: incidents
+    register: _incidents
 
-  - name: find user created problems
+  - name: Find user created Problems
     servicenow.itsm.problem_info:
       query:
-        - sys_created_by: LIKE {{ demo_username }}
+        - sys_created_by: = {{ demo_username }}
+          sys_created_on: "> {{ date_incidents }}"
           active: = true
-    register: problems
+    register: _problems
 
-  - name: find user created change requests
+  - name: Find user created Change Requests
     servicenow.itsm.change_request_info:
       query:
-        - sys_created_by: LIKE {{ demo_username }}
+        - sys_created_by: = {{ demo_username }}
+          sys_created_on: "> {{ date_incidents }}"
           active: = true
-    register: changes
+    register: _changes
 
-  - name: find user created configuration items
+  - name: Find user created Configuration items
     servicenow.itsm.configuration_item_info:
       query:
-        - sys_created_by: LIKE {{ demo_username }}
+        - sys_created_by: = {{ demo_username }}
+          sys_created_on: "> {{ date_incidents }}"
           active: = true
-    register: configs
+    register: _configs
 
-  - name: query incident number and creation time 
+  - name: Query Incident number and creation time 
     set_fact:
       incident_list: '{{ incident_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
-    loop: "{{ incidents.records }}"
-    when: incidents
+    loop: "{{ _incidents.records }}"
+    when: _incidents
 
-  - name: query problem number and creation time 
+  - name: Query Problem number and creation time 
     set_fact:
       problem_list: '{{ problem_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
-    loop: "{{ problems.records }}"
-    when: problems
+    loop: "{{ _problems.records }}"
+    when: _problems
 
-  - name: query change request number and creation time 
+  - name: Query Change Request number and creation time 
     set_fact:
       change_list: '{{ change_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
-    loop: "{{ changes.records }}"
-    when: changes
+    loop: "{{ _changes.records }}"
+    when: _changes
 
-  - name: query configuration item sys_id and creation time 
+  - name: Query Configuration item sys_id and creation time 
     set_fact:
       config_list: '{{ config_list + [{"number": item.sys_id, "opened_at": item.sys_created_on}] }}'
-    loop: "{{ configs.records }}"
-    when: configs
+    loop: "{{ _configs.records }}"
+    when: _configs
   
-  - name: close incidents from list
+  - name: Close Incidents from list
     servicenow.itsm.incident:
       state: closed
       number: "{{ item.number }}"
@@ -76,7 +80,7 @@
     when: 
       - incident_list is defined
 
-  - name: close problems from list
+  - name: Close Problems from list
     servicenow.itsm.problem:
       state: absent
       assigned_to: "{{ demo_username }}"
@@ -87,7 +91,7 @@
     when: 
       - problem_list is defined
     
-  - name: close change requests from list
+  - name: Close Change Requests from list
     servicenow.itsm.change_request:
       state: closed
       close_code: "successful"
@@ -99,7 +103,7 @@
     when: 
       - change_list is defined
 
-  - name: remove configuration items from list
+  - name: Remove configuration items from list
     servicenow.itsm.configuration_item:
       state: absent
       sys_id: "{{ item.number }}"
