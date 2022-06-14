@@ -1,0 +1,75 @@
+---
+- name: Query user created records 
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    incident_list: []
+    problem_list: []
+    change_list: []
+    config_list: []
+
+  tasks:
+  - name: Include variables
+    include_vars: main.yml
+    
+  - name: Find user created Incidents
+    servicenow.itsm.incident_info:
+      instance: "{{ instance }}"
+      query:
+        - sys_created_by: = {{ incident_caller }}
+          sys_created_on: "> {{ date_incidents }}"
+          active: = true
+    register: _incidents
+
+  - name: Find user created Problems
+    servicenow.itsm.problem_info:
+      instance: "{{ instance }}"
+      query:
+        - sys_created_by: = {{ incident_caller }}
+          sys_created_on: "> {{ date_incidents }}"
+          active: = true
+    register: _problems
+
+  - name: Find user created Change Requests
+    servicenow.itsm.change_request_info:
+      instance: "{{ instance }}"
+      query:
+        - sys_created_by: = {{ incident_caller }}
+          sys_created_on: "> {{ date_incidents }}"
+          active: = true
+    register: _changes
+
+  - name: Find user created Configuration items
+    servicenow.itsm.configuration_item_info:
+      instance: "{{ instance }}"
+      query:
+        - sys_created_by: = {{ incident_caller }}
+          sys_created_on: "> {{ date_incidents }}"
+          active: = true
+    register: _configs
+
+  - name: Query Incident number and creation time 
+    set_fact:
+      incident_list: '{{ incident_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
+    loop: "{{ _incidents.records }}"
+    when: _incidents is defined
+
+  - name: Query Problem number and creation time 
+    set_fact:
+      problem_list: '{{ problem_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
+    loop: "{{ _problems.records }}"
+    when: _problems is defined
+
+  - name: Query Change Request number and creation time 
+    set_fact:
+      change_list: '{{ change_list + [{"number": item.number, "opened_at": item.opened_at}] }}'
+    loop: "{{ _changes.records }}"
+    when: _changes is defined
+
+  - name: Query Configuration item sys_id and creation time 
+    set_fact:
+      config_list: '{{ config_list + [{"number": item.sys_id, "opened_at": item.sys_created_on}] }}'
+    loop: "{{ _configs.records }}"
+    when: _configs is defined
+  
