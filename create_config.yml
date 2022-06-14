@@ -9,9 +9,8 @@
       include_vars: main.yml
 
     - name: Collect Inventory facts
-      ansible.builtin.set_stats:
-        data:
-          node_info: "{{ node_info + [{'hostname': hostvars[item].ansible_hostname, 'default_ip': hostvars[item].ansible_host, 'vendor': hostvars[item].ansible_facts['product_name'] }] }}"
+      ansible.builtin.set_facts:
+        node_info: "{{ node_info + [{'hostname': hostvars[item].ansible_hostname, 'default_ip': hostvars[item].ansible_host, 'vendor': hostvars[item].ansible_facts['product_name'] }] }}"
       loop: "{{ groups['linux'] }}"
 
     - name: Create Configuration item
