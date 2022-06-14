@@ -15,35 +15,17 @@
           node_info: "{{ node_info + [{'hostname': hostvars[item].ansible_hostname, 'default_ip': hostvars[item].ansible_facts['default_ipv4']['address'], 'default_mac': hostvars[item].ansible_facts['default_ipv4']['macaddress'], 'vendor': hostvars[item].ansible_facts['product_name'] }] }}"
       loop: "{{ groups['linux'] }}"
 
-    # - name: Create Configuration item
-    #   servicenow.itsm.configuration_item:
-    #     instance: "{{ instance }}"
-    #     name: "{{ item.hostname }}"
-    #     ip_address: "{{ item.default_ip }}"
-    #     mac_address: "{{ item.default_mac }}"
-    #     environment: test
-    #     other:
-    #       sys_class_name: cmdb_ci_linux_server
-    #   loop: "{{ node_info }}"
-    #   register: _configuration_item
-
-
-    # - name: Collect Inventory facts
-    #   ansible.builtin.set_stats:
-    #     data:
-    #       node_info: "{{ node_info + [{'hostname': ansible_hostname, 'default_ip': ansible_facts['default_ipv4']['address'], 'default_mac': ansible_facts['default_ipv4']['macaddress'], 'vendor': ansible_facts['product_name'] }] }}"
-
-    # - name: Create Configuration item
-    #   servicenow.itsm.configuration_item:
-    #     instance: "{{ instance }}"
-    #     name: "{{ item.hostname }}"
-    #     ip_address: "{{ item.default_ip }}"
-    #     mac_address: "{{ item.default_mac }}"
-    #     environment: test
-    #     other:
-    #       sys_class_name: cmdb_ci_linux_server
-    #   loop: "{{ node_info }}"
-    #   register: _configuration_item
+    - name: Create Configuration item
+      servicenow.itsm.configuration_item:
+        instance: "{{ instance }}"
+        name: "{{ item.hostname }}"
+        ip_address: "{{ item.default_ip }}"
+        mac_address: "{{ item.default_mac }}"
+        environment: test
+        other:
+          sys_class_name: cmdb_ci_linux_server
+      loop: "{{ node_info }}"
+      register: _configuration_item
 
     - name: Debug Configuration item
       debug:
