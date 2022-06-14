@@ -12,18 +12,18 @@
           node_info: "{{ node_info + [{'hostname': ansible_facts['nodename'], 'default_ip': ansible_facts['default_ipv4']['address'], 'default_mac': ansible_facts['default_ipv4']['macaddress'], 'vendor': ansible_facts['product_name'] }] }}"
 
     - name: Create Configuration item
-        servicenow.itsm.configuration_item:
-          instance: "{{ instance }}"
-          name: "{{ item.hostname }}"
-          ip_address: "{{ item.default_ip }}"
-          mac_address: "{{ item.default_mac }}"
-          environment: test
-          other:
-            sys_class_name: cmdb_ci_linux_server
+      servicenow.itsm.configuration_item:
+        instance: "{{ instance }}"
+        name: "{{ item.hostname }}"
+        ip_address: "{{ item.default_ip }}"
+        mac_address: "{{ item.default_mac }}"
+        environment: test
+        other:
+          sys_class_name: cmdb_ci_linux_server
       loop: "{{ node_info }}"
       register: _configuration_item
 
     - name: Debug Configuration item
       debug:
-        msg: "A new configuration has been created/updated: {{ _configuration_item }}"
+        msg: "A new Configuration has been created: {{ _configuration_item }}"
 
