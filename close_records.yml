@@ -107,7 +107,6 @@
         active: false
     with_items: "{{ change_list }}"
     when: change_list is defined
-    ignore_errors: yes
 
   - name: Remove Configuration items from the list
     servicenow.itsm.configuration_item:
