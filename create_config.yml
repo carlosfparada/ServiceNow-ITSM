@@ -11,7 +11,7 @@
 
     - name: Collect Inventory facts
       ansible.builtin.set_fact:
-        node_info: "{{ node_info + [{'hostname': hostvars[item].ansible_hostname, 'default_ip': hostvars[item].ansible_host, 'default_mac': 00:00:00:00:00:00, 'vendor': hostvars[item].ansible_facts['product_name'] }] }}"
+        node_info: "{{ node_info + [{'hostname': hostvars[item].ansible_hostname, 'default_ip': hostvars[item].ansible_host, 'default_mac': '00:00:00:00:00:00', 'vendor': hostvars[item].ansible_facts['product_name'] }] }}"
       loop: "{{ groups['linux'] }}"
 
     - name: Create Configuration item
