@@ -2,6 +2,8 @@
 - name: Automate Service Now 
   hosts: localhost
   connection: local
+  vars:
+    node_info: []
   tasks:
     - name: Include variables
       include_vars: main.yml
