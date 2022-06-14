@@ -25,6 +25,7 @@
           sys_class_name: cmdb_ci_linux_server
       loop: "{{ node_info }}"
       register: _configuration_item
+      delegate_to: localhost
 
     - name: Debug Configuration item
       debug:
