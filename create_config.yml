@@ -11,7 +11,7 @@
     - name: Collect Inventory facts
       ansible.builtin.set_stats:
         data:
-          node_info: "{{ node_info + [{'hostname': ansible_facts['nodename'], 'default_ip': ansible_facts['default_ipv4']['address'], 'default_mac': ansible_facts['default_ipv4']['macaddress'], 'vendor': ansible_facts['product_name'] }] }}"
+          node_info: "{{ node_info + [{'hostname': ansible_hostname, 'default_ip': ansible_facts['default_ipv4']['address'], 'default_mac': ansible_facts['default_ipv4']['macaddress'], 'vendor': ansible_facts['product_name'] }] }}"
 
     - name: Create Configuration item
       servicenow.itsm.configuration_item:
