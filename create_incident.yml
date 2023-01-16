@@ -6,6 +6,14 @@
     - name: Include variables
       include_vars: main.yml
 
+    - name: Include variables
+      debug:
+        var: username
+
+    - name: Include variables
+      debug:
+        var: password
+
     - name: Create incident
       servicenow.itsm.incident:
         instance: "{{ instance }}"
