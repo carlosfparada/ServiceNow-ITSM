@@ -13,11 +13,3 @@ Docs:
 Service Instance:
 
 Request: https://developer.servicenow.com/dev.do
-
-Your instance URL: https://dev88463.service-now.com/
-
-Username: admin
-Current password: T0dc*ifH!HB2
-
-Keep your new instance active by developing on the instance or logging into the Developer Site. If your instance is inactive for 10 days, it will be reclaimed and released for other developers to use.
-
