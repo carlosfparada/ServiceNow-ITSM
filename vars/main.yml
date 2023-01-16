@@ -1,8 +1,8 @@
 ---
 instance:
   host: "https://dev129066.service-now.com"
-  username: "'{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'"
-  password: "'{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'"
+  username: '{{ lookup("env", "ANSIBLE_NET_USERNAME") }}'
+  password: '{{ lookup("env", "ANSIBLE_NET_PASSWORD") }}'
 
 incident_caller: admin
 date_incidents: "2022-04-01 00:00:00"
