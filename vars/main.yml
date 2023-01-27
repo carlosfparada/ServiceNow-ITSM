@@ -1,6 +1,6 @@
 ---
 instance:
-  host: "https://dev129066.service-now.com"
+  host: "https://dev134473.service-now.com"
   username: "{{ servicenow_username }}"
   password: "{{ servicenow_password }}"
   
